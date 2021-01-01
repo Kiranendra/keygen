@@ -7,6 +7,8 @@
 
     $('.validate-form').on('submit',function(){
         var check = true;
+        var keyLength = 0;
+        var filename = "key";
 
         for(var i=0; i<input.length; i++) {
             if(validate(input[i]) == false){
@@ -15,6 +17,11 @@
             }
         }
 
+        if (check == true) {
+            keyLength = parseInt($(input[0]).val().trim());
+            filename = $(input[1]).val().trim();
+            downloadFile(keyLength, filename);
+        }
         return check;
     });
 
@@ -36,6 +43,7 @@
                 return false;
             }
         }
+        return true;
     }
 
     function showValidate(input) {
@@ -50,6 +58,25 @@
         $(thisAlert).removeClass('alert-validate');
     }
     
-    
+    function downloadFile(keyLength, filename) {
+        var element = document.createElement('a');
+        var key = generateKey(keyLength);
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(key));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
 
+    function generateKey(keyLength) {
+        var result           = '';
+        var characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`~!@#$%^&*()-_=+[]{}|.,?;:';
+        var charactersLength = characters.length;
+        for ( var i = 0; i < keyLength; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+    
 })(jQuery);
