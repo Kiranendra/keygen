@@ -76,7 +76,7 @@
         for ( var i = 0; i < keyLength; i++ ) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
-        return result;
+        return "key=" + result;
     }
     
 })(jQuery);
